@@ -9,7 +9,9 @@
             <span class="name">{{ userInfo.name }}</span>
           </div>
           <div class="right">
-            <van-button size="mini" round @click="setFn">个人信息</van-button>
+            <van-button size="mini" round @click="$router.push('/profile')"
+              >个人信息</van-button
+            >
           </div>
         </div>
         <div class="data-stats">
@@ -74,7 +76,7 @@
 </template>
 
 <script>
-import { getprofile, getpre } from "../../api/user.js";
+import {  getpre } from "../../api/user.js";
 import { mapState } from "vuex";
 export default {
   name: "MyIndex",
@@ -95,9 +97,7 @@ export default {
     // 如果用户登录了，则请求加载用户信息数据
     if (this.user) {
       try {
-        const res = await getprofile(`Bearer ${this.user.token}`);
-        const { data } = await getpre(`Bearer ${this.user.token}`);
-        this.profile = res.data.data;
+        const { data } = await getpre();
         this.userInfo = data.data;
         // console.log(res);
         // console.log(data);
@@ -120,9 +120,6 @@ export default {
         .catch(() => {
           console.log("嘿害嗨~");
         });
-    },
-    setFn() {
-      // setprofile();
     },
   },
 };
@@ -224,12 +221,12 @@ export default {
       font-size: 30px;
       margin: 10px 20px;
     }
-    .van-grid {
+    /deep/ .van-grid {
       border-top: 1px dashed #bbb;
       .van-grid-item {
         // background-color: red;
-        div {
-          background-color: red;
+        .van-grid-item__content {
+          // background-color: red;
           i.van-icon.van-icon-service.van-grid-item__icon {
             color: #fff;
             background-color: #fc6627;
@@ -244,7 +241,7 @@ export default {
     height: 100px;
     text-align: center;
     color: #eb5253;
-    // margin: 10px 0;
+    margin: 10px 0;
     // margin-top: 60px;
     font-size: 30px;
   }
